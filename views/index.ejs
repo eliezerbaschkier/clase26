@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+        body {background-color: <%= (session && session.color) ? session.color : 
+                                (cookies && cookies.color) ? cookies.color : '' %>;}    </style>
+  </head>
+  <body>
+    <h1><%= (session && session.name) ? (session.name + ', gracias por visitarnos') : (cookies && cookies.name) ? (cookies.name + ', gracias por visitarnos') : 'Bienvenido' %> </h1>
+
+
+    <a href="/users/register">Ir al Register</a>
+  </body>
+</html>

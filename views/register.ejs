@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrate</title>
+    <style>
+        body {background-color: <%= (session && session.color) ? session.color : 
+                                (cookies && cookies.color) ? cookies.color : '' %>;}
+                                
+    </style>
+</head>
+<body >
+
+    <% if (locals.data) { %>
+        <p>
+            <%= `Hola ​${data.name}​, elegiste el color:​ ​${colorEnEspaniol}​​` + `, tu email es: ​${data.email}​ ​y tu edad es: ${data.age}` %>
+        </p>
+    <% } else if (session && session.name && session.colorEnEspaniol && session.email && session.age) { %>
+        <p>
+            <%= `Hola ​${session.name}​, elegiste el color:​ ​${session.colorEnEspaniol}​​` + `, tu email es: ​${session.email}​ ​y tu edad es: ${session.age}` %>
+        </p>
+    <% } else if (cookies) {%> 
+            <p>
+                <%= `Hola ​${cookies.name}​, elegiste el color:​ ​${cookies.colorEnEspaniol}​​` + `, tu email es: ​${cookies.email}​ ​y tu edad es: ${cookies.age}` %>
+            </p>
+    <% } %> 
+    <form action="/users/register" method="POST">
+        <label for="name">Ingrese su nombre:</label>
+        <input type="text" name="name" id="name" value="<%= (locals.old && old.name) ? old.name : '' %>">
+        <% if (locals.errors && errors.name) { %>
+            <p><%= errors.name.msg %> </p>
+        <% } %>
+        <br>
+        <label for="color">Seleccione un color:</label>
+        <select name="color" id="color">
+        <% let colors = ['lightgray', 'lightblue', 'lightcoral'] %> 
+        <% let colorsSpanish = ['Gris', 'Celeste', 'Coral'] %> 
+        <% for( i = 0; i < colors.length; i++ ) { %>
+            <option value="<%= colors[i] %>" <%= (locals.old && (old.color === colors[i]) ? 'selected' : '') %> >
+                <%= colorsSpanish[i] %> 
+            </option>
+        <% } %>
+        </select>
+        <br>
+        <label for="email">Ingrese su email:</label>
+        <input type="text" name="email" id="email" value="<%= (locals.old && old.email) ? old.email : '' %>">
+        <% if (locals.errors && errors.email) { %>
+            <p><%= errors.email.msg %> </p>
+        <% } %>
+        <br>
+        <label for="age">Ingrese su edad:</label>
+        <input type="text" name="age" id="age" value="<%= (locals.old && old.age) ? old.age : '' %>">
+        <% if (locals.errors && errors.age) { %>
+            <p><%= errors.age.msg %> </p>
+        <% } %>
+        <br>
+        <input type="checkbox" name="saveInfo" id="saveInfo" <%= (locals.old && old.saveInfo ? 'checked' : '') %>>
+        <label for="saveInfo">Recordar información</label>
+        <br>
+        <input type="submit" value="Enviar">
+    </form>
+    <br>
+    <a href="/users">Ir a Inicio</a>
+    <br>
+    <br>
+    <form action="/users/deleteSessionAndCookies" method="POST">
+        <input type="submit" value="Olvidar información">
+    </form>
+</body>
+</html>
