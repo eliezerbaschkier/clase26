@@ -6,7 +6,7 @@ const { check } = require('express-validator');
 const validateRegister = [
   check('name').notEmpty().withMessage('Debes completar el nombre'),
   check('email').notEmpty().withMessage('Debes completar el email').isEmail().withMessage('Tiene que tener formato de email'),
-  check('age').isInt().withMessage('Debes completar con un número') //LOGRAR QUE SEA OPCIONAL
+  check('age').optional().isInt().withMessage('Debes completar con un número') //LOGRAR QUE SEA OPCIONAL
 ]
 
 router.get('/', usersController.index);
